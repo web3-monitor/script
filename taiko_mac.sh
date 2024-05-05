@@ -1,7 +1,15 @@
 # 检查mac是否安装brew，如果没有安装则安装brew
 if ! command -v brew &>/dev/null; then
-    echo "Homebrew未安装，正在安装..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    echo "Homebrew未安装，准备安装..."
+    # 是否使用国内镜像源
+    read -p "是否使用国内镜像源？[y/n]: " use_mirror
+    if [ "$use_mirror" = "y" ]; then
+        echo "使用国内镜像源"
+        /bin/bash -c "$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)"
+    else
+        echo "使用官方源"
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    fi
 else
     echo "Homebrew已安装。"
 fi
