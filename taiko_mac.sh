@@ -5,7 +5,7 @@ if ! command -v brew &>/dev/null; then
     read -p "是否使用国内镜像源？[y/n]: " use_mirror
     if [ "$use_mirror" = "y" ]; then
         echo "使用国内镜像源"
-        /bin/bash -c "$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)"
+        /bin/bash -c "$(curl -fsSL https://gitee.com/shiyi_liu/script/blob/main/Homebrew.sh)"
     else
         echo "使用官方源"
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
