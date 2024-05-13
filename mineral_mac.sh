@@ -40,34 +40,48 @@ fi
 function install_mineral() {
     curl -LO https://github.com/ronanyeah/mineral-app/releases/download/v1/macos.zip
     unzip macos.zip
+}
+
+function runSingleMiner() {
+    pm2 delete all
     read -p "输入sui钱包私钥：" sui_key
     WALLET=$sui_key pm2 start --name miner ./mineral-macos -- mine
     echo "使用pm2 list查看进程"
 }
 
-function install_multiminer() {
-    read -p "请输入含有sui私钥的txt文件路径（每行一个私钥）：" key_file
-    function install_mineral() {
-    curl -LO https://github.com/ronanyeah/mineral-app/releases/download/v1/macos.zip
-    unzip macos.zip
-    read -p "输入sui钱包私钥：" sui_key
-    WALLET=$sui_key pm2 start --name miner ./mineral-macos -- mine
-    echo "使用pm2 list查看进程"
-}
-
-function install_multiminer() {
+function runMultipleMiners() {
+    pm2 delete all
     read -p "请输入含有sui私钥的txt文件路径（每行一个私钥）：" key_file
     if [ -f "$key_file" ]; then
         echo "私钥文件存在，正在读取..."
-        while IFS= read -r sui_key
-        do
+        while IFS= read -r sui_key; do
             WALLET=$sui_key pm2 start --name ${sui_key:0:16} ./mineral-macos -- mine
-        done < "$key_file"
+        done <"$key_file"
         echo "使用pm2 list查看进程"
     else
         echo "私钥文件不存在。"
     fi
 }
 
-
+function main_menu() {
+    clear
+    echo "#############################################################"
+    echo "1. 安装mineral矿工"
+    echo "2. 启动挖矿应用：单钱包"
+    echo "3. 启动挖矿应用：多钱包"
+    read -p "请选择执行的操作：" install_type
+    case $install_type in
+    1)
+        install_mineral
+        ;;
+    2)
+        runSingleMiner
+        ;;
+    3)
+        runMultipleMiners
+        ;;
+    *)
+        echo "无效的选择。"
+        ;;
+    esac
 }
