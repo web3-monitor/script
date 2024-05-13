@@ -40,6 +40,7 @@ fi
 function install_mineral() {
     curl -LO https://github.com/ronanyeah/mineral-app/releases/download/v1/macos.zip
     unzip macos.zip
+    main_menu
 }
 
 function runSingleMiner() {

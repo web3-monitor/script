@@ -25,9 +25,19 @@ else
     echo "pm2 已经安装。"
 fi
 
+# 检查是否安装了unzip
+if ! command -v unzip &>/dev/null; then
+    echo "unzip 没有安装，正在安装..."
+    sudo apt update
+    sudo apt install -y unzip
+else
+    echo "unzip 已经安装。"
+fi
+
 function install_mineral() {
     curl -LO https://github.com/ronanyeah/mineral-app/releases/download/v1/linux.zip
     unzip linux.zip
+    main_menu
 }
 
 function runSingleMiner() {
