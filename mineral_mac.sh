@@ -46,29 +46,38 @@ function runSingleMiner() {
     pm2 delete all
     read -p "输入sui钱包私钥：" sui_key
     WALLET=$sui_key pm2 start --name miner ./mineral-macos -- mine
-    echo "使用pm2 list查看进程"
+    echo "开始挖矿"
+    main_menu
 }
 
 function runMultipleMiners() {
-    pm2 delete all
     read -p "请输入含有sui私钥的txt文件路径（每行一个私钥）：" key_file
     if [ -f "$key_file" ]; then
         echo "私钥文件存在，正在读取..."
         while IFS= read -r sui_key; do
             WALLET=$sui_key pm2 start --name ${sui_key:0:16} ./mineral-macos -- mine
         done <"$key_file"
-        echo "使用pm2 list查看进程"
+        echo "开始挖矿"
     else
         echo "私钥文件不存在。"
     fi
+    main_menu
+}
+
+function stopMiners() {
+    pm2 delete all
+    echo "停止所有矿工"
+    main_menu
 }
 
 function main_menu() {
-    clear
     echo "#############################################################"
     echo "1. 安装mineral矿工"
     echo "2. 启动挖矿应用：单钱包"
     echo "3. 启动挖矿应用：多钱包"
+    echo "4. 停止所有矿工"
+    echo "退出脚本后，使用pm2 list查看进程列表，pm2 show 进程id 查看信息，pm2 logs 进程id 查看日志，pm2 stop 进程id 停止进程。"
+    echo "#############################################################"
     read -p "请选择执行的操作：" install_type
     case $install_type in
     1)
@@ -79,6 +88,9 @@ function main_menu() {
         ;;
     3)
         runMultipleMiners
+        ;;
+    4)
+        stopMiners
         ;;
     *)
         echo "无效的选择。"
