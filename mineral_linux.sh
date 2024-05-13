@@ -11,7 +11,7 @@ fi
 # 检查是否安装了node
 if ! command -v node &>/dev/null; then
     echo "Node.js 没有安装，正在安装..."
-    curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+    curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
     sudo apt-get install -y nodejs
 else
     echo "Node.js 已经安装。"
