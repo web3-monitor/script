@@ -51,6 +51,17 @@ function runSingleMiner() {
     main_menu
 }
 
+function runMultipleMinersForSingleWallet() {
+    pm2 delete all
+    read -p "输入sui钱包私钥：" sui_key
+    read -p "请输入窗口数：" window_num
+    for ((i = 1; i <= window_num; i++)); do
+        WALLET=$sui_key pm2 start --name ${sui_key:0:16}-$i ./mineral-macos -- mine
+    done
+    echo "开始挖矿"
+    main_menu
+}
+
 function runMultipleMiners() {
     read -p "请输入含有sui私钥的txt文件路径（每行一个私钥）：" key_file
     if [ -f "$key_file" ]; then
@@ -76,8 +87,9 @@ function main_menu() {
     echo "########脚本由推特用户: 十一 @wohefengyiyang 编写及免费分享########"
     echo "1. 安装mineral矿工"
     echo "2. 启动挖矿应用：单钱包"
-    echo "3. 启动挖矿应用：多钱包"
-    echo "4. 停止所有矿工"
+    echo "3. 启动挖矿应用：单钱包多开"
+    echo "4. 启动挖矿应用：多钱包"
+    echo "5. 停止所有矿工"
     echo "退出脚本后，使用pm2 list查看进程列表，pm2 show 进程id 查看信息，pm2 logs 进程id 查看日志，pm2 stop 进程id 停止进程。"
     echo "#############################################################"
     read -p "请选择执行的操作：" install_type
@@ -89,9 +101,12 @@ function main_menu() {
         runSingleMiner
         ;;
     3)
-        runMultipleMiners
+        runMultipleMinersForSingleWallet
         ;;
     4)
+        runMultipleMiners
+        ;;
+    5)
         stopMiners
         ;;
     *)
