@@ -70,6 +70,7 @@ function stopMiners() {
 
 function main_menu() {
     echo "#############################################################"
+    echo "########脚本由推特用户: 十一 @wohefengyiyang 编写及免费分享########"
     echo "1. 安装mineral矿工"
     echo "2. 启动挖矿应用：单钱包"
     echo "3. 启动挖矿应用：多钱包"
