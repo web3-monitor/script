@@ -45,6 +45,27 @@ function install_ionet(){
     read -p "请输入ionet的user_id: " user_id
     read -p "请输入自定义的device_name（什么名称都行）: " device_name
     ./io_net_launch_binary_mac --device_id=${device_id} --user_id=${user_id} --operating_system="macOS" --usegpus=false --device_name=${device_name}
+    main_menu
 }
 
-install_ionet
+function main_menu() {
+    echo "#############################################################"
+    echo "########脚本由推特用户: 十一 @wohefengyiyang 编写及免费分享########"
+    echo "1. 安装ionet"
+    echo "2. 退出"
+    echo "#############################################################"
+    read -p "请选择: " choice
+    case $choice in
+    1)
+        install_ionet
+        ;;
+    2)
+        exit 0
+        ;;
+    *)
+        echo "无效的选择"
+        main_menu
+        ;;
+    esac
+}
+main_menu
