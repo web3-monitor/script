@@ -6,15 +6,24 @@ fi
 
 function install_environment() {
     # 检查是否安装了go
+    TARGET_VERSION=1223 # 目标版本，例如1.22.3就写1223
     if ! command -v go &>/dev/null; then
         echo "Go 没有安装，正在安装..."
         curl -O https://dl.google.com/go/go1.22.3.linux-amd64.tar.gz
-        sudo tar -C /usr/local -xzf go1.17.1.linux-amd64.tar.gz
+        sudo tar -C /usr/local -xzf go1.22.3.linux-amd64.tar.gz
         export PATH=$PATH:/usr/local/go/bin
         source $HOME/.bash_profile
         go version
     else
-        echo "Go 已经安装。"
+        CURRENT_VERSION=$(go version | awk '{print $3}' | tr -d 'go' | tr -d '.')
+        if [ "$CURRENT_VERSION" -lt "$TARGET_VERSION" ]; then
+            echo "Go 的版本过低，正在更新..."
+            curl -O https://dl.google.com/go/go1.22.3.linux-amd64.tar.gz
+            sudo tar -C /usr/local -xzf go1.22.3.linux-amd64.tar.gz
+            source $HOME/.bash_profile
+        else
+            echo "Go 已经安装，版本为 $(go version | awk '{print $3}')。"
+        fi
     fi
 
     # 检查是否安装了node
@@ -39,7 +48,6 @@ function install_environment() {
 }
 
 function install_initia() {
-    set -e
     install_environment
 
     #安装initiad
