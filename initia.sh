@@ -11,7 +11,7 @@ function install_environment() {
         echo "Go 没有安装，正在安装..."
         curl -O https://dl.google.com/go/go1.22.3.linux-amd64.tar.gz
         sudo tar -C /usr/local -xzf go1.22.3.linux-amd64.tar.gz
-        export PATH=$PATH:/usr/local/go/bin
+        echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >>$HOME/.bash_profile
         source $HOME/.bash_profile
         go version
     else
@@ -20,6 +20,7 @@ function install_environment() {
             echo "Go 的版本过低，正在更新..."
             curl -O https://dl.google.com/go/go1.22.3.linux-amd64.tar.gz
             sudo tar -C /usr/local -xzf go1.22.3.linux-amd64.tar.gz
+            echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >>$HOME/.bash_profile
             source $HOME/.bash_profile
         else
             echo "Go 已经安装，版本为 $(go version | awk '{print $3}')。"
