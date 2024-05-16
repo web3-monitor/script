@@ -174,6 +174,11 @@ function delegate_to_validator() {
     initiad tx mstaking delegate $(initiad keys show wallet --bech val -a) $((amount * 1000000))uinit --from $wallet --chain-id initiation-1 --gas=2000000 --fees=300000uinit --node tcp://localhost:50003 -y
 }
 
+function update_initia() {
+    cd initia
+    git fetch && git checkout v0.2.14 && make install && pm2 restart initiad
+}
+
 function menu() {
     while true; do
         echo "#############################################################"
@@ -192,7 +197,8 @@ function menu() {
         echo "12. 解除验证者的监禁状态"
         echo "13. 委托给验证者"
         echo "14. 查看slinky日志"
-        echo "15. 退出"
+        echo "15. 更新节点（官方版本有更新时再操作,当前版本v0.2.14）"
+        echo "16. 退出"
         echo "#############################################################"
         read -p "请输入数字选择操作: " choice
         case $choice in
@@ -239,6 +245,9 @@ function menu() {
             slinky_logs
             ;;
         15)
+            update_initia
+            ;;
+        16)
             break
             ;;
         *)
