@@ -8,7 +8,7 @@ function install_environment() {
     # 检查是否安装了go
     if ! command -v go &>/dev/null; then
         echo "Go 没有安装，正在安装..."
-        curl -O https://dl.google.com/go/go1.17.1.linux-amd64.tar.gz
+        curl -O https://dl.google.com/go/go1.22.3.linux-amd64.tar.gz
         sudo tar -C /usr/local -xzf go1.17.1.linux-amd64.tar.gz
         export PATH=$PATH:/usr/local/go/bin
         source $HOME/.bash_profile
