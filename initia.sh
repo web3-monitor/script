@@ -8,8 +8,10 @@ function install_environment() {
     # 检查是否安装了go
     if ! command -v go &>/dev/null; then
         echo "Go 没有安装，正在安装..."
-        sudo apt update
-        sudo apt install -y golang-go
+        curl -O https://dl.google.com/go/go1.17.1.linux-amd64.tar.gz
+        sudo tar -C /usr/local -xzf go1.17.1.linux-amd64.tar.gz
+        export PATH=$PATH:/usr/local/go/bin
+        source $HOME/.bash_profile
         go version
     else
         echo "Go 已经安装。"
@@ -32,17 +34,12 @@ function install_environment() {
         echo "pm2 已经安装。"
     fi
 
-    # 检查是否安装了build-essential
-    if ! dpkg -s build-essential &>/dev/null; then
-        echo "build-essential 没有安装，正在安装..."
-        sudo apt-get update
-        sudo apt-get install -y build-essential
-    else
-        echo "build-essential 已经安装。"
-    fi
+    # 安装相关依赖
+    sudo apt install -y build-essential git curl iptables wget jq make gcc htop nvme-cli libssl-dev libleveldb-dev tar clang bsdmainutils ncdu libleveldb-dev lz4 snapd unzip
 }
 
 function install_initia() {
+    set -e
     install_environment
 
     #安装initiad
