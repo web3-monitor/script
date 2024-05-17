@@ -96,3 +96,5 @@ function menu() {
         esac
     done
 }
+
+menu
