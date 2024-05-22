@@ -58,9 +58,9 @@ function install_storage_node() {
     read -p "请输入EVM钱包私钥（如果私钥以0x开头，删掉0x）: " miner_key
 
     sed -i "" "s/miner_key = \"\"/miner_key = \"$miner_key\"/" config.toml
-    sed -i "" 's|blockchain_rpc_endpoint = "https://rpc-testnet.0g.ai"|blockchain_rpc_endpoint = "https://0g-evm-rpc.stakeme.pro"|g' config.toml
+    sed -i "" 's|blockchain_rpc_endpoint = "https://rpc-testnet.0g.ai"|blockchain_rpc_endpoint = "https://evm-rpc-0gchain.dadunode.com"|g' config.toml
 
-    sed -i "" 's/log_sync_start_block_number = 80981/log_sync_start_block_number = 172634/' config.toml
+    sed -i "" 's/log_sync_start_block_number = 80981/log_sync_start_block_number = 223989/' config.toml
 
     pm2 start ../target/release/zgs_node -- --config config.toml
 
